@@ -1,3 +1,9 @@
+# Description: Detroit方法（增长系数法预测城市居民出行分布）
+# Author：21216492
+# Date：2022/04/02
+
+
+
 from tkinter.font import names
 import matplotlib.pyplot as plt 
 import os
