@@ -3,3 +3,8 @@
 2022春季学期 作业代码库
 
 project01. OD矩阵交通分配（Detroit方法）ddl：2022/04/06
+
+### To-do List
+- [x] Detroit 方法
+- [x] 输入epoch次数，输出最后分配状态
+- [ ] 判断迭代终止条件
