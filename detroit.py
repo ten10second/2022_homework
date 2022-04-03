@@ -35,30 +35,33 @@ SUM = sum(Estimated_future_attraction)
 
 data['generation_growth'] = ''
 data.loc['attract_growth'] = ''
-print(data)
 
 # calculate the growth of the generate and attraction
 
-for i in range(len(colums)):
-    data.iat[i, 5] = Estimated_future_generation[i] / data.iat[i, 4]
-    data.iat[5, i] = Estimated_future_attraction[i] / data.iat[4, i]
+for item in colums:
+    i = colums.index(item)
+    data.at[item, 'generation_growth'] = Estimated_future_generation[i] / data.iat[i, 4]
+    data.at['attract_growth', item] = Estimated_future_attraction[i] / data.iat[4, i]
 
 G = data.at['Total_attract', 'Total_generate'] / SUM
 
 epoch = 1
 
-for i in range(len(colums)):
-    for j in range(len(colums)):
+for origin in colums:
+    for dst in index:
 
-        data.iat[i, j] = data.iat[i, j] * G * data.iat[i, 5] * data.iat[5, j]
+        data.at[origin, dst] = data.at[origin, dst] * G * data.at[origin, 'generation_growth'] * data.at['attract_growth', dst]
 
 # update the total_attract and total_generation
 data['Total_generate'] = data.iloc[0:4, :].sum(axis=0)
 data.loc['Total_attract'] = data.iloc[:, 0:5].sum(axis=0)  
 
-for i in range(len(colums)):
-    data.iat[i, 5] = Estimated_future_generation[i] / data.iat[i, 4]
-    data.iat[5, i] = Estimated_future_attraction[i] / data.iat[4, i]
+
+for item in colums:
+    i = colums.index(item)
+
+    data.at[item, 'generation_growth'] = Estimated_future_generation[i] / data.at[item, 'Total_generate']
+    data.at['attract_growth', item] = Estimated_future_attraction[i] / data.at['Total_attract', item]
 
 
 print(data)
