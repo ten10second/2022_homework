@@ -1,8 +1,7 @@
 # Description: Detroit方法（增长系数法预测城市居民出行分布）
-# Author：21216492
+# Author：21216492 zhimiao_shi
 # Date：2022/04/02
 
-from calendar import EPOCH
 from cmath import nan
 from distutils.command.config import LANG_EXT
 import matplotlib.pyplot as plt 
@@ -10,6 +9,11 @@ import os
 import pandas as pd 
 import numpy as np
 import csv
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--epoch", default=15, help="输入迭代的次数")
+args = parser.parse_args()
 
 file_path = 'D://codefield//2022_homework//trip_distribution.csv'
 
@@ -48,9 +52,9 @@ G = data.at['Total_attract', 'Total_generate'] / SUM
 
 # print(data)
 
-EPOCH = 15
+EPOCH = args.epoch
 
-for epoch in range(EPOCH):
+for epoch in range(int(EPOCH)):
 
 
     for origin in colums:
@@ -74,4 +78,6 @@ for epoch in range(EPOCH):
 
 
     print(data)
-data.to_csv('epoch1.csv', sep='\t')
+    data.to_csv('iteration.txt', sep=',', index = True, header= True)
+
+# data.to_csv('final_epoch.csv', sep='\t')
