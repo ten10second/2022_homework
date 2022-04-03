@@ -4,6 +4,7 @@
 
 from calendar import EPOCH
 from cmath import nan
+from distutils.command.config import LANG_EXT
 import matplotlib.pyplot as plt 
 import os
 import pandas as pd 
@@ -39,30 +40,38 @@ data.loc['attract_growth'] = ''
 # calculate the growth of the generate and attraction
 
 for item in colums:
-    i = colums.index(item)
-    data.at[item, 'generation_growth'] = Estimated_future_generation[i] / data.iat[i, 4]
-    data.at['attract_growth', item] = Estimated_future_attraction[i] / data.iat[4, i]
+
+    data.at[item, 'generation_growth'] = future_generation_dict[item] / data.at[item, 'Total_generate']
+    data.at['attract_growth', item] = future_attraction_dict[item] / data.at['Total_attract', item]
 
 G = data.at['Total_attract', 'Total_generate'] / SUM
 
-epoch = 1
+# print(data)
 
-for origin in colums:
-    for dst in index:
+EPOCH = 15
 
-        data.at[origin, dst] = data.at[origin, dst] * G * data.at[origin, 'generation_growth'] * data.at['attract_growth', dst]
-
-# update the total_attract and total_generation
-data['Total_generate'] = data.iloc[0:4, :].sum(axis=0)
-data.loc['Total_attract'] = data.iloc[:, 0:5].sum(axis=0)  
+for epoch in range(EPOCH):
 
 
-for item in colums:
-    i = colums.index(item)
+    for origin in colums:
+        for dst in index:
 
-    data.at[item, 'generation_growth'] = Estimated_future_generation[i] / data.at[item, 'Total_generate']
-    data.at['attract_growth', item] = Estimated_future_attraction[i] / data.at['Total_attract', item]
+            data.at[origin, dst] = data.at[origin, dst] * G * data.at[origin, 'generation_growth'] * data.at['attract_growth', dst]
+
+    # update the total_attract and total_generation
+    # data['Total_generate'] = data.iloc[0:4, :].sum(axis=0)
+    # data.loc['Total_attract'] = data.iloc[0:4, :].sum(axis=1)
 
 
-print(data)
+    for item in colums:
+
+        data.at[item, 'Total_generate'] = data.iloc[colums.index(item), 0:4].sum()
+        data.at['Total_attract', item] = data.iloc[0:4, colums.index(item)].sum()
+        data.at[item, 'generation_growth'] = future_generation_dict[item] / data.at[item, 'Total_generate']
+        data.at['attract_growth', item] = future_attraction_dict[item]  / data.at['Total_attract', item]
+
+    G = data.at['Total_attract', 'Total_generate'] / SUM
+
+
+    print(data)
 data.to_csv('epoch1.csv', sep='\t')
