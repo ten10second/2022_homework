@@ -52,10 +52,11 @@ G = data.at['Total_attract', 'Total_generate'] / SUM
 
 # print(data)
 
+epoch  = 1
 EPOCH = args.epoch
 
-for epoch in range(int(EPOCH)):
-
+while  epoch < int(EPOCH):
+# for epoch in range(int(EPOCH)):
 
     for origin in colums:
         for dst in index:
@@ -77,7 +78,22 @@ for epoch in range(int(EPOCH)):
     G = data.at['Total_attract', 'Total_generate'] / SUM
 
 
-    print(data)
-    data.to_csv('iteration.txt', sep=',', index = True, header= True)
+    # print(data)
+
+    # 加入迭代终止条件的判断
+    generation_growth = data['generation_growth'][0: 4].values.tolist()
+    attract_growth = data.loc['attract_growth'][0: 4].values.tolist()
+    growth = generation_growth + attract_growth
+
+    if all(0.97 <= _ <= 1.03 for _ in growth):
+        print('the min epoch is {}'.format(epoch))
+        print(data)
+        data.to_csv('final_epoch.csv', sep=',', index = True, header= True)
+        break
+
+    else: 
+        epoch += 1
+
+    # data.to_csv('iteration.txt', sep=',', index = True, header= True)
 
 # data.to_csv('final_epoch.csv', sep='\t')
