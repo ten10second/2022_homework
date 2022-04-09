@@ -12,4 +12,5 @@
 ### project 02 Attraction Trip-End Balancing Method for Gravity Model calculation
 
 #### To-do List
-- [ ] 维护三个dataframe
+
+- [x] 维护三个dataframe
