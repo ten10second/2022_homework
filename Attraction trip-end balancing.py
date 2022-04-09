@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import csv
 import argparse
+import math
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--epoch", default=100, help="输入迭代的次数")
@@ -16,7 +17,7 @@ args = parser.parse_args()
 
 # calculate the f_cij
 def resistent(distance):
-    return format(float(100)/float(distance**2), '.2f')
+    return format(math.exp(-0.01*distance), '.2f')
 
 
 distance_matrix = np.array([
@@ -93,5 +94,5 @@ while epoch < int(epoch_nums):
     else:
         epoch += 1
 
-print('After {} epoches, the results are not satisfied the constrains'.format(int(epoch_nums)))
-print(T_dataframe)
+# print('After {} epoches, the results are not satisfied the constrains'.format(int(epoch_nums)))
+# print(T_dataframe)
