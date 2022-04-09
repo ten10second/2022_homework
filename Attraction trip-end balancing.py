@@ -1,3 +1,6 @@
+# Description: Attraction Trip-End Balancing Method Gravity Model calculation
+# Author：21216492 zhimiao_shi
+# Date：2022/04/09
 
 import os
 from turtle import distance
