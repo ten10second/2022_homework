@@ -16,3 +16,8 @@
 - [x] 维护三个dataframe
 - [x] 判断迭代终止条件，返回满足条件的最小迭代次数及OD分布结果
 
+### project 03 POI destination baesd on the Mobile Phone Signaling Data
+
+- [x] 分割有效序列数据
+- [ ] 
+
